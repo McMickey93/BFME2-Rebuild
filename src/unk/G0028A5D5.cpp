@@ -1,6 +1,8 @@
 // Generated from the ledger; map snapshot c591f7146f88c8a8248ebb8ae22f0c978c22aed463db64e05ef57ff0dfae99cc
 // object=G0028A5D5 name-evidence=invented
 // Extents and edges are hypotheses; byte verification alone does not establish original TU boundaries.
+#include "GameNetwork/DisconnectManager.h"
+
 // FUNCTION: BFME2 0x0028A5D5 size=19 name=?set@Rva0028A5D5BlobSlot@@QAEXPBURva0028A5D5BlobSlotBlob@@@Z evidence=?:placeholder tier=B hypothesis:mm1-gap-unit
 // FUNCTION: BFME2 0x0028A5E8 size=13 name=?set@Rva0028A5E8DwordSlot@@QAEXH@Z evidence=?:placeholder tier=B hypothesis:mm1-gap-unit
 // FUNCTION: BFME2 0x0028A5F5 size=4 name=?get@Rva0028A5F5ByteField@@QBEEXZ evidence=?:placeholder tier=B hypothesis:mm1-gap-unit
@@ -14,3 +16,7 @@
 // FUNCTION: BFME2 0x0028A650 size=7 name=?get@Rva0028A650ByteField@@QBEEXZ evidence=?:placeholder tier=B hypothesis:mm1-gap-unit
 // FUNCTION: BFME2 0x0028A657 size=7 name=?get@Rva0028A657ByteField@@QBEEXZ evidence=?:placeholder tier=B hypothesis:mm1-gap-unit
 // FUNCTION: BFME2 0x0028A65E size=7 name=?rva0028A65E@DisconnectManager@@QBEHXZ evidence=S:strong (caller-this) tier=B hypothesis:mm1-gap-unit
+Int DisconnectManager::rva0028A65E() const
+{
+	return m_unk0x260;
+}
