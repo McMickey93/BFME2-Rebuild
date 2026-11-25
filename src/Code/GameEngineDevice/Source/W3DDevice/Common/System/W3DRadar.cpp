@@ -158,6 +158,10 @@ Bool Object::testStatus(ObjectStatusTypes bit) const
 // FUNCTION: BFME2 0x0004F84E size=128 name=?rva0004F84E@Rva0004F7F4Owner@@QAEAAVRva0004E4C9@@AAV2@PBD@Z evidence=?:placeholder tier=B hypothesis:cohesion
 
 // FUNCTION: BFME2 0x0004FA11 size=6 name=?name@Rva0004FA11Named@@QBEPBDXZ evidence=?:placeholder tier=B hypothesis:cohesion
+const char *Radar::GetSnapshotName() const
+{
+	return "Radar";
+}
 
 // FUNCTION: BFME2 0x0004FAFF size=1510 name=?buildTerrainTexture@W3DRadar@@IAEXPAVTerrainLogic@@@Z evidence=N:ledger tier=B hypothesis:cohesion
 
