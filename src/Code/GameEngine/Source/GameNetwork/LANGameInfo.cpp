@@ -35,7 +35,7 @@ Int LANGameInfo::getLocalSlotNum() const
 }
 
 // FUNCTION: BFME2 0x004477C7 size=20 name=?amIHost@LANGameInfo@@QBE_NXZ evidence=N:ledger tier=B hypothesis:cohesion
-Bool LANGameInfo::amIHost() const
+Bool LANGameInfo::amIHost()
 {
 	if (!m_inGame)
 		return false;
