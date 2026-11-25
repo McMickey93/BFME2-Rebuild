@@ -56,11 +56,11 @@ class OverBudgetPlan(unittest.TestCase):
     def test_routine_refresh_over_the_cap_measures_nothing_and_succeeds(self):
         error, outputs, notice, wrote = self.plan()
         self.assertIsNone(error)
-        self.assertEqual(outputs, "active=no\n")
+        self.assertEqual(outputs, "active=no\nover_budget=yes\n")
         self.assertEqual(wrote, [])
         self.assertIn("::notice title=Protected main state not measured::", notice)
         self.assertIn("requires 51 runners, above the 8-runner cap", notice)
-        self.assertIn("seed enabled", notice)
+        self.assertIn("A seed run is started automatically", notice)
 
     def test_an_explicit_seed_over_its_cap_still_fails(self):
         error, outputs, _, wrote = self.plan(GITHUB_EVENT_NAME="workflow_dispatch", BFME_STATE_SEED="true")
@@ -86,7 +86,9 @@ class OverBudgetPlan(unittest.TestCase):
     def test_the_workflow_follows_the_plan_step(self):
         text = (REPO_ROOT / ".github/workflows/state.yml").read_text(encoding="utf-8")
         self.assertIn("active: '${{ steps.plan.outputs.active == ''yes'' && ''yes'' || ''no'' }}'", text)
-        self.assertIn("STATE_SEED_BUDGET: '${{ vars.BFME_STATE_SEED_BUDGET_JOBS }}'", text)
+        self.assertIn("STATE_SEED_BUDGET: '${{ vars.BFME_STATE_SEED_BUDGET_JOBS || ''64'' }}'", text)
+        self.assertIn("if: steps.plan.outputs.over_budget == 'yes' && env.BFME_STATE_SEED != 'true'", text)
+        self.assertIn("gh workflow run state.yml -R \"$GITHUB_REPOSITORY\" --ref main -f seed=true", text)
         upload = text.split("name: bfme-state-plan-${{ github.run_attempt }}")[0].rsplit("- uses:", 1)[1]
         self.assertIn("if: steps.plan.outputs.active == 'yes'", upload)
 

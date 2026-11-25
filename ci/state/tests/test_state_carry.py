@@ -39,6 +39,15 @@ class OvercapExitMigrationTest(unittest.TestCase):
         self.assertEqual(state_delta.OVERCAP_EXIT_MIGRATION[0], state_delta.HYDRATION_MIGRATION[1])
 
 
+class AutoSeedMigrationTest(unittest.TestCase):
+    def test_auto_seed_migration_matches_the_workflow(self):
+        import hashlib
+        pair = state_delta.AUTO_SEED_MIGRATION
+        self.assertIn(pair, state_delta.STATE_FLOW_MIGRATIONS)
+        text = (Path(__file__).resolve().parents[3] / ".github/workflows/state.yml").read_bytes()
+        self.assertEqual(hashlib.sha256(text).hexdigest(), pair[1])
+
+
 class ArtifactFirstLookupTest(unittest.TestCase):
     def _repo_id(self):
         from common import REPO_ID

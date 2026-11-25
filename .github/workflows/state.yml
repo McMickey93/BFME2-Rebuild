@@ -47,7 +47,8 @@ jobs:
     timeout-minutes: 5
     permissions:
       contents: read
-      actions: read
+      # write: a routine refresh over the cap starts one seed run instead of leaving main unmeasured.
+      actions: write
     outputs:
       # The plan step decides last: a refresh over the runner cap measures nothing (state_workflow.py).
       active: '${{ steps.plan.outputs.active == ''yes'' && ''yes'' || ''no'' }}'
@@ -84,7 +85,7 @@ jobs:
         id: plan
         env:
           STATE_BUDGET: '${{ vars.BFME_STATE_BUDGET_JOBS }}'
-          STATE_SEED_BUDGET: '${{ vars.BFME_STATE_SEED_BUDGET_JOBS }}'
+          STATE_SEED_BUDGET: '${{ vars.BFME_STATE_SEED_BUDGET_JOBS || ''64'' }}'
           BFME_READ_TOKEN: '${{ github.token }}'
         run: |
           set -Eeuo pipefail
@@ -97,6 +98,22 @@ jobs:
           python3 -B ci/managed-state/state_workflow.py plan "$RUNNER_TEMP/state-plan/state-plan.json" \
             "$RUNNER_TEMP/state-plan/carry.json" "$RUNNER_TEMP/previous-state.json"
           printf 'attempt=%s\n' "$GITHUB_RUN_ATTEMPT" >> "$GITHUB_OUTPUT"
+      - name: Start one seed run when this refresh is over the routine cap
+        if: steps.plan.outputs.over_budget == 'yes' && env.BFME_STATE_SEED != 'true'
+        env:
+          GH_TOKEN: '${{ github.token }}'
+        run: |
+          set -Eeuo pipefail
+          trap 'rc=$?; printf "Expected to start or find a seed run. Found exit %s at line %s.\n" "$rc" "$LINENO" >&2' ERR
+          busy=$(gh run list -R "$GITHUB_REPOSITORY" --workflow state.yml --event workflow_dispatch --limit 50 \
+            --json status,displayTitle \
+            -q '[.[] | select(.status != "completed" and (.displayTitle | startswith("Seed protected main state ")))] | length')
+          if [ "$busy" = 0 ]; then
+            gh workflow run state.yml -R "$GITHUB_REPOSITORY" --ref main -f seed=true
+            echo "::notice title=Seed started::Main needs a full refresh above the routine cap, so one seed run was started."
+          else
+            echo "::notice title=Seed already running::A seed run is already queued or running; not starting another."
+          fi
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: steps.plan.outputs.active == 'yes'
         with:

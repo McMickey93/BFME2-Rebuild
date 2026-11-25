@@ -44,15 +44,15 @@ def plan_budget(env):
 
 
 def skip_over_budget(error, env, output):
-    """A routine refresh that needs more runners than the cap cannot finish here: it measures nothing (active=no)
-    and succeeds, instead of failing on every push until a maintainer seeds the state. An explicit seed must
-    finish its baseline, so it still fails."""
+    """A routine refresh that needs more runners than the cap cannot finish here: it measures nothing (active=no),
+    reports over_budget=yes so the workflow starts one seed run, and succeeds. An explicit seed must finish its
+    baseline, so it still fails."""
     if env.get("BFME_STATE_SEED") == "true":
         return False
     print(f"::notice title=Protected main state not measured::{error} "
-          "Run 'Measure protected main state' by hand with seed enabled to refresh the protected baseline.")
+          "A seed run is started automatically to refresh the protected baseline.")
     with Path(output).open("a") as file:
-        file.write("active=no\n")
+        file.write("active=no\nover_budget=yes\n")
     return True
 
 
