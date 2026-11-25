@@ -128,7 +128,7 @@ Bool legalRadarPoint(Int x, Int y)
 // FUNCTION: BFME2 0x0004E536 size=37 name=?testStatus@Object@@QBE_NW4ObjectStatusTypes@@@Z evidence=N:ledger tier=B hypothesis:cohesion
 Bool Object::testStatus(ObjectStatusTypes bit) const
 {
-	return m_status.test(bit);
+	return (m_status.m_bits[(UnsignedInt)bit >> 5] & (1u << (bit & 31))) != 0;
 }
 
 // FUNCTION: BFME2 0x0004E55B size=71 name=?rva0004E55B@@YAXHHHPAVSurfaceClass@@@Z evidence=?:placeholder tier=B hypothesis:cohesion
