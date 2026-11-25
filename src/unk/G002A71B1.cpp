@@ -1,9 +1,16 @@
 // Generated from the ledger; map snapshot c591f7146f88c8a8248ebb8ae22f0c978c22aed463db64e05ef57ff0dfae99cc
 // object=G002A71B1 name-evidence=invented
 // Extents and edges are hypotheses; byte verification alone does not establish original TU boundaries.
+#include "Common/Command.h"
+
 // FUNCTION: BFME2 0x002A71B1 size=11 name=?rva002A71B1@Rva002A71B1@@QBEHH@Z evidence=?:placeholder tier=B hypothesis:mm1-gap-unit
 // FUNCTION: BFME2 0x002A71BC size=461 name=?Init@Command@@QAEXH_N@Z evidence=N:ledger tier=B hypothesis:mm1-gap-unit
 // FUNCTION: BFME2 0x002A7389 size=6 name=?getCommandPointsInUse@Command@@QAEHH@Z evidence=X:map request (link a1a88198eb) tier=B hypothesis:mm1-gap-unit
+Int Command::getCommandPointsInUse(Int unused)
+{
+	return m_pointsInUse;
+}
+
 // FUNCTION: BFME2 0x002A738F size=21 name=?set@Command@@QAEXHH@Z evidence=S:strong (caller-this) tier=B hypothesis:mm1-gap-unit
 // FUNCTION: BFME2 0x002A73A4 size=10 name=?rva002A73A4@Command@@QAEXH@Z evidence=S:strong (position+fit) tier=B hypothesis:mm1-gap-unit
 // FUNCTION: BFME2 0x002A73AE size=10 name=?rva002A73AE@Command@@QAEXH@Z evidence=S:strong (position+fit) tier=B hypothesis:mm1-gap-unit
