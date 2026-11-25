@@ -1,6 +1,8 @@
 // Generated from the ledger; map snapshot c591f7146f88c8a8248ebb8ae22f0c978c22aed463db64e05ef57ff0dfae99cc
 // object=G0028A807 name-evidence=invented
 // Extents and edges are hypotheses; byte verification alone does not establish original TU boundaries.
+#include "Common/ThingTemplate.h"
+
 // FUNCTION: BFME2 0x0028A807 size=4 name=?inc@Rva0028A807DwordCounter@@QAEXXZ evidence=?:placeholder tier=B hypothesis:mm1-gap-unit
 // FUNCTION: BFME2 0x0028A80B size=4 name=?inc@Rva0028A80BDwordCounter@@QAEXXZ evidence=?:placeholder tier=B hypothesis:mm1-gap-unit
 // FUNCTION: BFME2 0x0028A80F size=4 name=?inc@Rva0028A80FDwordCounter@@QAEXXZ evidence=?:placeholder tier=B hypothesis:mm1-gap-unit
@@ -21,6 +23,14 @@
 // FUNCTION: BFME2 0x0028A8A7 size=7 name=?get@Rva0028A8A7FloatField@@QBEMXZ evidence=?:placeholder tier=B hypothesis:mm1-gap-unit
 // FUNCTION: BFME2 0x0028A8AE size=7 name=?get@Rva0028A8AEFloatField@@QBEMXZ evidence=?:placeholder tier=B hypothesis:mm1-gap-unit
 // FUNCTION: BFME2 0x0028A8B5 size=45 name=?clampVisionBonusPercent@ThingTemplate@@QBEXPAM@Z evidence=X:map request tier=B hypothesis:mm1-gap-unit
+void ThingTemplate::clampVisionBonusPercent(Real *value) const
+{
+	if (*value > m_maxVisionBonusPercent)
+		*value = m_maxVisionBonusPercent;
+	if (*value < m_minVisionBonusPercent)
+		*value = m_minVisionBonusPercent;
+}
+
 // FUNCTION: BFME2 0x0028A8E2 size=7 name=?get@Rva0028A8E2FloatField@@QBEMXZ evidence=?:placeholder tier=B hypothesis:mm1-gap-unit
 // FUNCTION: BFME2 0x0028A8E9 size=7 name=?get@Rva0028A8E9DwordField@@QBEHXZ evidence=?:placeholder tier=B hypothesis:mm1-gap-unit
 // FUNCTION: BFME2 0x0028A8F0 size=7 name=?get@Rva0028A8F0DwordField@@QBEHXZ evidence=?:placeholder tier=B hypothesis:mm1-gap-unit
