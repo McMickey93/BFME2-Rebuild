@@ -1,5 +1,11 @@
+#include "Common/AudioEventInfo.h"
 // Generated from the ledger; map snapshot c591f7146f88c8a8248ebb8ae22f0c978c22aed463db64e05ef57ff0dfae99cc
 // object=G001DBA69 name-evidence=invented
 // Extents and edges are hypotheses; byte verification alone does not establish original TU boundaries.
 // FUNCTION: BFME2 0x001DBA69 size=4 name=?getFilename@AudioEventInfo@@QBEABVAsciiString@@XZ evidence=X:map request tier=B hypothesis:mm1-gap-unit
+const AsciiString &AudioEventInfo::getFilename() const
+{
+	return m_filename;
+}
+
 // FUNCTION: BFME2 0x001DBA6D size=4 name=?get@Rva001DBA6DByteField@@QBEEXZ evidence=?:placeholder tier=B hypothesis:mm1-gap-unit
